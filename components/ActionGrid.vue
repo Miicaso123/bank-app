@@ -16,7 +16,7 @@ const actions = [
   {
     icon: '/images/wallet.svg',
     text: 'Account and Card',
-    url: 'http://https://kbankaccountcard.netlify.app/',
+    url: 'http://https://kbankaccountcard.netlify.app',
   },
   { icon: '/images/transfer.svg', text: 'Transfer' },
   { icon: '/images/withdraw.svg', text: 'Withdraw' },
