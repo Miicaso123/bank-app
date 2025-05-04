@@ -10,10 +10,14 @@
 </template>
 
 <script setup lang="ts">
-const emit = defineEmits(['open-iframe'])
+const emit = defineEmits(['open-iframe']);
 
 const actions = [
-  { icon: '/images/wallet.svg', text: 'Account and Card', url: 'http://localhost:3001' },
+  {
+    icon: '/images/wallet.svg',
+    text: 'Account and Card',
+    url: 'http://https://kbankaccountcard.netlify.app/',
+  },
   { icon: '/images/transfer.svg', text: 'Transfer' },
   { icon: '/images/withdraw.svg', text: 'Withdraw' },
   { icon: '/images/prepaid.svg', text: 'Mobile prepaid' },
@@ -25,10 +29,10 @@ const actions = [
 ];
 
 const handleClick = (item: any) => {
-    if(item.url) {
-        emit('open-iframe', item.url)
-    }
-}
+  if (item.url) {
+    emit('open-iframe', item.url);
+  }
+};
 </script>
 
 <style scoped>
