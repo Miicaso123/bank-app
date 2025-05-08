@@ -18,7 +18,7 @@ const actions = [
     text: 'Account and Card',
     url: 'https://kbankaccountcard.netlify.app/',
   },
-  { icon: '/images/transfer.svg', text: 'Transfer' },
+  { icon: '/images/transfer.svg', text: 'Transfer', url: 'https://kbanktransfer.netlify.app/' },
   { icon: '/images/withdraw.svg', text: 'Withdraw' },
   { icon: '/images/prepaid.svg', text: 'Mobile prepaid' },
   { icon: '/images/paybill.svg', text: 'Pay bill' },
