@@ -3,7 +3,7 @@
     <h2>You need scan the QR Code</h2>
     <p>Open the app on smartphone by scanning this QR</p>
     <img
-      src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://kbank.com"
+      src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://kbankapp.netlify.app/"
       alt="QR Code"
       class="nopage-qr"
     />
@@ -15,7 +15,7 @@
   max-width: 400px;
   margin: 0 auto;
   text-align: center;
-  padding-top: 40px
+  padding-top: 40px;
 }
 
 .nopage-content h2 {

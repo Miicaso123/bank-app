@@ -44,8 +44,14 @@ const openIframe = async (url: string) => {
 };
 
 const handleMessage = (event: MessageEvent) => {
-  if (event.data?.type === 'CLOSE_IFRAME') {
+  const data = event.data;
+
+  if (data?.type === 'CLOSE_IFRAME') {
     iframeVisible.value = false;
+  }
+
+  if (data?.type === 'SAVE_ROUTE') {
+    localStorage.setItem('lastIframeUrl', data.route);
   }
 };
 
@@ -55,6 +61,12 @@ onMounted(() => {
   authStore.initAuth();
 
   window.addEventListener('message', handleMessage);
+
+  const lastRoute = localStorage.getItem('lastIframeUrl');
+  if (lastRoute) {
+    iframeUrl.value = lastRoute;
+    iframeVisible.value = true;
+  }
 });
 
 onUnmounted(() => {
