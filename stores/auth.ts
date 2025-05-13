@@ -33,6 +33,7 @@ export const useAuthStore = defineStore('auth', {
           localStorage.removeItem('auth_user');
         }
       }
+
     },
 
     register(name: string, phonenumber: string, password: string) {

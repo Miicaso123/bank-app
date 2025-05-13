@@ -43,8 +43,8 @@ const checkScreen = () => {
 
 const openIframe = async (url: string) => {
   await nextTick();
-  const name = userName.value;
-  iframeUrl.value = `${url}?name=${encodeURIComponent(name)}`;
+
+  iframeUrl.value = url;
   iframeVisible.value = true;
 };
 
@@ -64,7 +64,6 @@ const handleMessage = (event: MessageEvent) => {
 onMounted(() => {
   checkScreen();
   window.addEventListener('resize', checkScreen);
-  authStore.initAuth();
 
   window.addEventListener('message', handleMessage);
 
@@ -76,7 +75,7 @@ onMounted(() => {
 
   setTimeout(() => {
     isLoading.value = false;
-  }, 700);
+  }, 500);
 });
 
 onUnmounted(() => {

@@ -4,7 +4,7 @@
       <div v-if="isLogin" class="login">
         <header class="header">
           <div><img src="/images/arrow.png" alt="arrow" class="arrow" /></div>
-        <div @click="backToHome"><p>Sign in</p></div>
+          <div @click="backToHome"><p>Sign in</p></div>
         </header>
 
         <div class="wrapper">
@@ -17,7 +17,12 @@
               <img src="/images/login1.svg" alt="login1" class="login-img" />
             </div>
             <form @submit.prevent="handleLogin" class="form">
-              <input v-model="loginForm.phonenumber" type="number" placeholder="Text input" required />
+              <input
+                v-model="loginForm.phonenumber"
+                type="number"
+                placeholder="Text input"
+                required
+              />
               <input v-model="loginForm.password" type="password" placeholder="Password" required />
               <div class="content-forgot">
                 <p>Forgot your password ?</p>
@@ -51,7 +56,12 @@
             </div>
             <form @submit.prevent="handleRegister" class="form">
               <input v-model="registerForm.name" type="text" placeholder="Name" required />
-              <input v-model="registerForm.phonenumber" type="number" placeholder="Text input" required />
+              <input
+                v-model="registerForm.phonenumber"
+                type="number"
+                placeholder="Text input"
+                required
+              />
               <input
                 v-model="registerForm.password"
                 type="password"
@@ -136,7 +146,6 @@ const handleRegister = async () => {
 onMounted(() => {
   checkScreen();
   window.addEventListener('resize', checkScreen);
-  authStore.initAuth();
 });
 
 onUnmounted(() => {

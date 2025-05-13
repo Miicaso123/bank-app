@@ -3,6 +3,7 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   css: ['/assets/main.css'],
   modules: ['@pinia/nuxt'],
+  plugins: ['~/plugins/auth.ts'],
   app: {
     head: {
       meta: [
