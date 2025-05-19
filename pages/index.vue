@@ -6,15 +6,9 @@
       <div v-if="isMobile" class="page">
         <AppHeader :userName="userName" />
 
-        <transition name="slide-up">
-          <div v-if="iframeVisible" class="iframe-wrapper">
-            <iframe :src="iframeUrl" class="iframe-content" />
-          </div>
-        </transition>
-
-        <div class="content" v-if="!iframeVisible">
-          <AccountCard :name="userName" />
-          <ActionGrid @open-iframe="openIframe" />
+        <div class="content">
+          <AccountCard :name="userName" :card="lastCard" />
+          <ActionGrid />
           <BottomNav />
         </div>
       </div>
@@ -28,12 +22,13 @@
 
 <script setup lang="ts">
 import { useAuthStore } from '@/stores/auth';
+import { iframeMap } from '@/utils/iframeMap';
 
 const isLoading = ref(true);
 const isMobile = ref<boolean>(true);
+const iframeUrl = ref<string | null>(null);
+const lastCard = ref(null);
 const authStore = useAuthStore();
-const iframeVisible = ref<boolean>(false);
-const iframeUrl = ref<string>('');
 
 const userName = computed(() => authStore.user?.name || 'Guest');
 
@@ -41,36 +36,45 @@ const checkScreen = () => {
   isMobile.value = window.innerWidth <= 500;
 };
 
-const openIframe = async (url: string) => {
-  await nextTick();
-
-  iframeUrl.value = url;
-  iframeVisible.value = true;
-};
-
 const handleMessage = (event: MessageEvent) => {
   const data = event.data;
 
-  if (data?.type === 'SAVE_ROUTE') {
-    localStorage.setItem('lastIframeUrl', data.route);
+  if (!data?.type || !['SAVE_ROUTE', 'CARD_UPDATED'].includes(data.type)) {
+    return;
   }
 
-  if (data?.type === 'CLOSE_IFRAME') {
-    iframeVisible.value = false;
-    localStorage.removeItem('lastIframeUrl');
+  if (data?.type === 'SAVE_ROUTE') {
+    const urlFromMap = iframeMap[data.route as keyof typeof iframeMap];
+    if (urlFromMap && iframeUrl.value !== urlFromMap) {
+      localStorage.setItem('lastIframeUrl', urlFromMap);
+      iframeUrl.value = urlFromMap;
+    }
+  } else if (data.type === 'CARD_UPDATED' && data.card) {
+    console.log('Updating lastCard:', data.card);
+    lastCard.value = data.card;
+    localStorage.setItem('lastCard', JSON.stringify(data.card));
   }
 };
 
 onMounted(() => {
+  if (typeof window === 'undefined') return;
+
   checkScreen();
   window.addEventListener('resize', checkScreen);
-
   window.addEventListener('message', handleMessage);
 
-  const lastRoute = localStorage.getItem('lastIframeUrl');
-  if (lastRoute) {
-    iframeUrl.value = lastRoute;
-    iframeVisible.value = true;
+  const savedUrl = localStorage.getItem('lastIframeUrl');
+  if (savedUrl) {
+    iframeUrl.value = savedUrl;
+  }
+
+  const savedCard = localStorage.getItem('lastCard');
+  if (savedCard) {
+    try {
+      lastCard.value = JSON.parse(savedCard);
+    } catch (error) {
+      console.error('Error parsing lastCard from localStorage:', error);
+    }
   }
 
   setTimeout(() => {
@@ -79,6 +83,7 @@ onMounted(() => {
 });
 
 onUnmounted(() => {
+  if (typeof window === 'undefined') return;
   window.removeEventListener('resize', checkScreen);
   window.removeEventListener('message', handleMessage);
 });
@@ -95,38 +100,5 @@ onUnmounted(() => {
   padding: 16px;
   border-top-left-radius: 24px;
   border-top-right-radius: 24px;
-}
-
-.slide-up-enter-active,
-.slide-up-leave-active {
-  transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
-}
-.slide-up-enter-from,
-.slide-up-leave-to {
-  transform: translateY(100%);
-  opacity: 0;
-}
-.slide-up-enter-to,
-.slide-up-leave-from {
-  transform: translateY(0);
-  opacity: 1;
-}
-
-.iframe-wrapper {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: white;
-  z-index: 999;
-  display: flex;
-  flex-direction: column;
-}
-
-.iframe-content {
-  flex: 1;
-  border: none;
-  width: 100%;
 }
 </style>

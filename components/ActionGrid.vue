@@ -10,27 +10,27 @@
 </template>
 
 <script setup lang="ts">
-const emit = defineEmits(['open-iframe']);
+const router = useRouter();
 
 const actions = [
   {
     icon: '/images/wallet.svg',
     text: 'Account and Card',
-    url: 'https://kbankaccountcard.netlify.app/',
+    path: '/accountcard',
   },
-  { icon: '/images/transfer.svg', text: 'Transfer', url: 'https://kbanktransfer.netlify.app/' },
-  { icon: '/images/withdraw.svg', text: 'Withdraw' },
-  { icon: '/images/prepaid.svg', text: 'Mobile prepaid' },
-  { icon: '/images/paybill.svg', text: 'Pay bill' },
-  { icon: '/images/saveonline.svg', text: 'Save online' },
-  { icon: '/images/creditcard.svg', text: 'Credit card' },
-  { icon: '/images/transaction.svg', text: 'Transaction report' },
-  { icon: '/images/beneficiary.svg', text: 'Beneficiary' },
+  { icon: '/images/transfer.svg', text: 'Transfer', path: '/transfer' },
+  { icon: '/images/withdraw.svg', text: 'Withdraw', path: '/withdraw' },
+  { icon: '/images/prepaid.svg', text: 'Mobile prepaid', path: '/prepaid' },
+  { icon: '/images/paybill.svg', text: 'Pay bill', path: '/paybill' },
+  { icon: '/images/saveonline.svg', text: 'Save online', path: '/save' },
+  { icon: '/images/creditcard.svg', text: 'Credit card', path: '/credit' },
+  { icon: '/images/transaction.svg', text: 'Transaction report', path: '/transactions' },
+  { icon: '/images/beneficiary.svg', text: 'Beneficiary', path: '/beneficiary' },
 ];
 
 const handleClick = (item: any) => {
-  if (item.url) {
-    emit('open-iframe', item.url);
+  if (item.path) {
+    router.push(item.path);
   }
 };
 </script>

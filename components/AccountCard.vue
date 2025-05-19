@@ -3,14 +3,17 @@
     <div class="card-content">
       <h2>{{ name }}</h2>
       <p>Amazon Platinum</p>
-      <p>**** **** **** 9018</p>
-      <h3>$3,469.52</h3>
+      <p>**** **** **** {{ card ? String(card.Account).slice(-4) : '9018' }}</p>
+      <h3>{{ card ? card.Avalable_balance : '$3,469.52' }}</h3>
     </div>
   </section>
 </template>
 
 <script setup lang="ts">
-    defineProps<{name: string}>();
+defineProps<{
+  name: string;
+  card: { id: number; Account: number; Avalable_balance: string; Branch: string } | null;
+}>();
 </script>
 
 <style scoped>
